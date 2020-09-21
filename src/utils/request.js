@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { Message, Loading } from 'element-ui'
-
+import { Message } from 'element-ui'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 /**
  * 封装axios，实现发送/响应接口的拦截，来实现统一提示等效果
  */
@@ -12,17 +13,17 @@ const error = () => {
     duration: 2 * 1000
   })
 }
-let loading
-const startLoading = () => {
-  loading = Loading.service({
-    lock: true,
-    text: '加载中……',
-    background: 'rgba(0, 0, 0, 0.7)'
-  })
-}
-const endLoading = () => {
-  loading.close()
-}
+// let loading
+// const startLoading = () => {
+//   loading = Loading.service({
+//     lock: true,
+//     text: '加载中……',
+//     background: 'rgba(0, 0, 0, 0.7)'
+//   })
+// }
+// const endLoading = () => {
+//   loading.close()
+// }
 
 const service = axios.create({
   baseURL: 'https://cnodejs.org/api/v1',
@@ -32,11 +33,11 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
-    startLoading()
+    NProgress.start();
     return config
   },
   err => {
-    endLoading()
+    NProgress.done();
     error()
     Promise.reject(err)
   }
@@ -45,11 +46,11 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    endLoading()
+    NProgress.done();
     return response.data
   },
   err => {
-    endLoading()
+    NProgress.done();
     error()
     return Promise.reject(err)
   }

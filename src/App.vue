@@ -40,15 +40,37 @@ export default {
 }
 
 * {
+  /* overflow: hidden; */
   margin: 0;
   padding: 0;
+}
+*::-webkit-scrollbar {
+	/*滚动条整体样式*/
+	width: 4px;/*定义纵向滚动条宽度*/
+	height: 8px;/*定义横向滚动条高度*/
+}
+
+*::-webkit-scrollbar-thumb {
+	/*滚动条内部滑块*/
+	border-radius: 8px;
+	background-color: hsla(240, 1%, 17%, 0.603);
+	transition: background-color 0.3s;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	/*鼠标悬停滚动条内部滑块*/
+	background: #bbb;
+}
+
+*::-webkit-scrollbar-track {
+	/*滚动条内部轨道*/
+	background: #ededed;
 }
 </style>
 
 <style lang="scss" scoped>
 .main-section {
   margin: auto;
-  margin-top: 40px;
   width: 1200px;
 }
 </style>

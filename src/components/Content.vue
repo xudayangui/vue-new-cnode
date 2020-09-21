@@ -1,31 +1,45 @@
 <template>
-  <div>
-    <div class="topic" v-for="item in list" :key="item.id">
-      <router-link :to="{ path: '/user/' + item.author.loginname }">
-        <img
-          :src="item.author.avatar_url | imgCheck"
-          @error="imgErr(item.author.avatar_url)"
-          alt="用户头像"
-        />
-      </router-link>
-      <span class="count">
-        <em>{{ item.reply_count }}</em>/<em>{{ item.visit_count }}</em>
-      </span>
-      <el-tag :type="$tab[item.tab] && $tab[item.tab].type">
-        {{ item.tab ? $tab[item.tab] && $tab[item.tab].name : '无分类'}}
-      </el-tag>
-      <router-link class="title" :to="{ path: '/topic/' + item.id }">
-        {{ item.title }}
-      </router-link>
-      <span class="time">
-        {{
-          $moment(item.last_reply_at, 'YYYY-MM-DD')
-            .startOf('day')
-            .fromNow()
-        }}
-      </span>
-    </div>
-  </div>
+	<div>
+		<div class="topic" v-for="item in list" :key="item.id">
+			<router-link :to="{ path: '/user/' + item.author.loginname }">
+				<img
+				:src="item.author.avatar_url | imgCheck"
+				@error="imgErr(item.author.avatar_url)"
+				alt="用户头像"
+				/>
+			</router-link>
+			<span class="count">
+				<em>{{ item.reply_count }}</em>/<em>{{ item.visit_count }}</em>
+			</span>
+			<el-tag v-if="item.tab && !item.top && !item.good" :type="$tab[item.tab] && $tab[item.tab].type" >
+				{{ $tab[item.tab] && $tab[item.tab].name}}
+			</el-tag>
+			<el-tag v-if="item.top || item.good"  :type="item.top?'danger':'primary'">
+				<span v-if="item.top && item.good">
+					置顶
+				</span>
+				<span v-if="item.good && !item.top">
+					精华
+				</span>
+				<span v-if="!item.tab && !item.top && !item.good">
+					无分类
+				</span>
+			</el-tag>
+			<el-tag v-if="!item.tab && !item.top && !item.good">
+				无分类
+			</el-tag>
+			<router-link class="title" :to="{ path: '/topic/' + item.id }">
+				{{ item.title }}
+			</router-link>
+			<span class="time">
+				{{
+				$moment(item.last_reply_at, 'YYYY-MM-DD')
+					.startOf('day')
+					.fromNow()
+				}}
+			</span>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -47,7 +61,7 @@ export default {
    */
   data() {
     return {
-      article: [],
+	  article: [],
     };
   },
   methods: {
@@ -69,14 +83,14 @@ export default {
 
 <style lang="scss" scoped>
 .topic {
-  margin: 10px;
+  margin: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   img {
-    width: 50px;
+    width: 30px;
     border-radius: 50%;
-    height: 50px;
+    height: 30px;
   }
   span.count {
     width: 50px;

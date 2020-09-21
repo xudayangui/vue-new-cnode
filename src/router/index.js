@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Topic from './views/Topic.vue'
-import User from './views/User.vue'
+import Home from '../views/Home.vue'
+import Topic from '../views/Topic.vue'
+import User from '../views/User.vue'
 
 Vue.use(Router)
 
