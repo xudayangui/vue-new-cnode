@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取首页帖子列表数据
 export const getTopics = data => {
   return request({
-    url: '/topics',
+    url: '/topics/hot.json',
     method: 'get',
     params: data
   })

@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import {
+	Message
+} from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 /**
@@ -7,11 +9,11 @@ import 'nprogress/nprogress.css'
  */
 
 const error = () => {
-  Message({
-    type: 'error',
-    message: '遇到错误，请刷新重试！',
-    duration: 2 * 1000
-  })
+	Message({
+		type: 'error',
+		message: '遇到错误，请刷新重试！',
+		duration: 2 * 1000
+	})
 }
 // let loading
 // const startLoading = () => {
@@ -26,34 +28,34 @@ const error = () => {
 // }
 
 const service = axios.create({
-  baseURL: 'https://cnodejs.org/api/v1',
-  timeout: 5000 // 请求超时时间限制
+	baseURL: '',
+	timeout: 5000 // 请求超时时间限制
 })
 
 // 请求拦截器
 service.interceptors.request.use(
-  config => {
-    NProgress.start();
-    return config
-  },
-  err => {
-    NProgress.done();
-    error()
-    Promise.reject(err)
-  }
+	config => {
+		NProgress.start();
+		return config
+	},
+	err => {
+		NProgress.done();
+		error()
+		Promise.reject(err)
+	}
 )
 
 // 响应拦截器
 service.interceptors.response.use(
-  response => {
-    NProgress.done();
-    return response.data
-  },
-  err => {
-    NProgress.done();
-    error()
-    return Promise.reject(err)
-  }
+	response => {
+		NProgress.done();
+		return response.data
+	},
+	err => {
+		NProgress.done();
+		error()
+		return Promise.reject(err)
+	}
 )
 
 export default service
